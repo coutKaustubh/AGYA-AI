@@ -24,11 +24,11 @@ def speak_now(text):
     asyncio.run(speak(text))
 
 # ========== Wake Message ========== #
-speak_now("Aapka swagat hai nova AI me")
+speak_now("Aapka swagat hai navya AI me")
 
 # ========== Speech Recognition ========== #
 r = sr.Recognizer()
-nova_activate = False
+navya_activate = False
 
 while True:
     with sr.Microphone() as source:
@@ -40,11 +40,11 @@ while True:
         wake_command = r.recognize_google(audio).lower()
         print("You said (wake):", wake_command)
         
-        if any(phrase in wake_command for phrase in ["hey", "nova", "hey nova", "are you there", "r u there", "hello", "listen", "nova"]):
-            nova_activate = True
+        if any(phrase in wake_command for phrase in ["hey", "navya", "hey navya", "are you there", "r u there", "hello", "listen", "navya"]):
+            navya_activate = True
             speak_now("Mai sun rahi hoon. mai koi bhi app khol sakti hoon and time bhi bta sakti hoon")
 
-            while nova_activate:
+            while navya_activate:
                 try:
                     with sr.Microphone() as source:
                         print("Listening for command...")
@@ -63,7 +63,7 @@ while True:
                         speak_now("Always operational.")
 
                     elif any(phrase in command for phrase in ["tumhara naam", "nam" , "your name"]):
-                        speak_now("I am nova, aapki sathi.")
+                        speak_now("I am navya, aapki sathi.")
 
                     elif any(phrase in command for phrase in ["badhiya", "achi" , "maza aagya" , "good" , "appreciate"]):
                         speak_now("I am very thankful . Shukriya !")
@@ -72,7 +72,7 @@ while True:
                         speak_now("I am in a developing phase. I will correct myself")
 
                     elif any(phrase in command for phrase in ["stop", "end", "exit", "thanks", "thank you", "over", "sign out"]):
-                        nova_activate = False
+                        navya_activate = False
                         speak_now("Mujhe use krne ke liye dhanyawad. aapka din shubh ho")
                         break
 
@@ -95,7 +95,7 @@ while True:
                 except sr.RequestError:
                     print("Speech recognition service is down.")
                     speak_now("Sorry, I'm having trouble connecting.")
-                    nova_activate = False
+                    navya_activate = False
 
     except sr.UnknownValueError:
         print("Could not understand audio")
