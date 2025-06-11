@@ -1,11 +1,4 @@
-import os
-import asyncio
-import edge_tts
-from playsound import playsound
-import speech_recognition as sr
-import webbrowser
-import datetime
-import tempfile
+from imports import *
 
 # ========== TTS Setup ========== #
 async def speak(text):
@@ -71,7 +64,7 @@ while True:
                     elif any(phrase in command for phrase in ["kharab", "bekar" , "need to be better" , "bad" , "kill"]):
                         speak_now("I am in a developing phase. I will correct myself")
 
-                    elif any(phrase in command for phrase in ["stop", "end", "exit", "thanks", "thank you", "over", "sign out"]):
+                    elif any(phrase in command for phrase in ["stop", "end", "exit", "thanks", "thank" "thank you", "over", "sign out"]):
                         navya_activate = False
                         speak_now("Mujhe use krne ke liye dhanyawad. aapka din shubh ho")
                         break
@@ -80,7 +73,7 @@ while True:
                         try:
                             site_name = command.split("open")[1].strip()
                             url = f"https://www.{site_name}.com"
-                            speak_now(f"Opening {site_name}")
+                            speak_now(f"apna browser check kro {site_name} khul gya h")
                             webbrowser.open(url)
                         except Exception as e:
                             print("Error:", e)
@@ -90,11 +83,11 @@ while True:
                         speak_now("Sorry, I didn't understand that.")
 
                 except sr.UnknownValueError:
-                    print("Could not understand command. Listening again...")
-                    speak_now("Sorry, I didn't catch that.")
+                    print("Some error ! please speak again")
+                    speak_now("Please dobara bolo .. I didn't understand")
                 except sr.RequestError:
                     print("Speech recognition service is down.")
-                    speak_now("Sorry, I'm having trouble connecting.")
+                    speak_now("Sorry, Lagta h meri battery gyiiiiiiiiiiiiii.")
                     navya_activate = False
 
     except sr.UnknownValueError:
