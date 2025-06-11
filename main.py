@@ -13,7 +13,7 @@ async def speak(text):
     with tempfile.NamedTemporaryFile(delete=False, suffix=".mp3") as fp:
         temp_path = fp.name
 
-    tts = edge_tts.Communicate(text, voice="en-IN-NeerjaNeural")
+    tts = edge_tts.Communicate(text, voice="hi-IN-SwaraNeural")
     await tts.save(temp_path)
     playsound(temp_path)
 
@@ -42,7 +42,7 @@ while True:
         
         if any(phrase in wake_command for phrase in ["hey", "nova", "hey nova", "are you there", "r u there", "hello", "listen", "nova"]):
             nova_activate = True
-            speak_now("I'm listening...")
+            speak_now("Mai sun rahi hoon. mai koi bhi app khol sakti hoon and time bhi bta sakti hoon")
 
             while nova_activate:
                 try:
@@ -57,17 +57,23 @@ while True:
                     if "time" in command:
                         now = datetime.datetime.now()
                         time_str = now.strftime("%I:%M %p")
-                        speak_now(f"The current time is {time_str}")
+                        speak_now(f"{time_str} ho raha h")
 
                     elif any(phrase in command for phrase in ["how are you", "how r u"]):
                         speak_now("Always operational.")
 
-                    elif "your name" in command:
-                        speak_now("I am nova, your assistant.")
+                    elif any(phrase in command for phrase in ["tumhara naam", "nam" , "your name"]):
+                        speak_now("I am nova, aapki sathi.")
+
+                    elif any(phrase in command for phrase in ["badhiya", "achi" , "maza aagya" , "good" , "appreciate"]):
+                        speak_now("I am very thankful . Shukriya !")
+
+                    elif any(phrase in command for phrase in ["kharab", "bekar" , "need to be better" , "bad" , "kill"]):
+                        speak_now("I am in a developing phase. I will correct myself")
 
                     elif any(phrase in command for phrase in ["stop", "end", "exit", "thanks", "thank you", "over", "sign out"]):
                         nova_activate = False
-                        speak_now("Thank you for using me")
+                        speak_now("Mujhe use krne ke liye dhanyawad. aapka din shubh ho")
                         break
 
                     elif "open" in command:
