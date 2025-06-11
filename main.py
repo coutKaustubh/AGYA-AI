@@ -1,9 +1,10 @@
 import pyttsx3
 import speech_recognition as sr
 import datetime
+import webbrowser
 
 engine = pyttsx3.init()
-engine.setProperty('rate', 135)     # Speed of speech
+engine.setProperty('rate', 125)     # Speed of speech
 engine.setProperty('volume', 1.0)   # Volume (0.0 to 1.0)
 
 engine.say('Welcome to the world of QUANTA')
@@ -21,7 +22,7 @@ while True:
         wake_command = r.recognize_google(audio).lower()
         print("You said (wake):", wake_command)
 
-        if "hey quanta" in wake_command:
+        if any(phrase in wake_command for phrase in ["hey quanta", "are you there" , "r u there" , "hello" , "listen" , "quanta"]):
             engine.say("I'm listening...")
             engine.runAndWait()
 
@@ -45,10 +46,20 @@ while True:
                 engine.say("Goodbye!")
                 engine.runAndWait()
                 break
-            else:
-                engine.say("Sorry, I don't understand.")
+            
+            elif "open" in command:
+                try:
+                    site_name = command.split("open")[1].strip()  # Get word after 'open'
+                    url = f"https://www.{site_name}.com"
+                    engine.say(f"Opening {site_name}")
+                    engine.runAndWait()
+                    webbrowser.open(url)
+                except Exception as e:
+                    engine.say("Sorry, I couldn't open that website.")
+                    engine.runAndWait()
+                    print("Error:", e)
+                    engine.say("Sorry, I don't understand.")
 
-            engine.runAndWait()
 
     except sr.UnknownValueError:
         print("Could not understand audio")
