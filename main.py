@@ -1,6 +1,7 @@
 from imports import *
+from api import *
 
-# ========== TTS Setup ========== #
+# TTS Setup 
 async def speak(text):
     # Generate a temporary mp3 file to avoid permission errors
     with tempfile.NamedTemporaryFile(delete=False, suffix=".mp3") as fp:
@@ -16,12 +17,12 @@ async def speak(text):
 def speak_now(text):
     asyncio.run(speak(text))
 
-# ========== Wake Message ========== #
-speak_now("Aapka swagat hai navya AI me")
+# Wake Message 
+speak_now("Aapka swagat hai agya AI me")
 
-# ========== Speech Recognition ========== #
+# Speech Recognition 
 r = sr.Recognizer()
-navya_activate = False
+agya_activate = False
 
 while True:
     with sr.Microphone() as source:
@@ -33,11 +34,11 @@ while True:
         wake_command = r.recognize_google(audio).lower()
         print("You said (wake):", wake_command)
         
-        if any(phrase in wake_command for phrase in ["hey", "navya", "hey navya", "are you there", "r u there", "hello", "listen", "navya"]):
-            navya_activate = True
-            speak_now("Mai sun rahi hoon. mai koi bhi app khol sakti hoon and time bhi bta sakti hoon")
+        if any(phrase in wake_command for phrase in ["hey", "agya", "hey agya", "are you there", "r u there", "hello", "listen", "agya"]):
+            agya_activate = True
+            speak_now("Mai sun rahi hoon. Whats your question ?")
 
-            while navya_activate:
+            while agya_activate:
                 try:
                     with sr.Microphone() as source:
                         print("Listening for command...")
@@ -56,7 +57,7 @@ while True:
                         speak_now("Always operational.")
 
                     elif any(phrase in command for phrase in ["tumhara naam", "nam" , "your name"]):
-                        speak_now("I am navya, aapki sathi.")
+                        speak_now("I am agya, aapki sathi.")
 
                     elif any(phrase in command for phrase in ["badhiya", "achi" , "maza aagya" , "good" , "appreciate"]):
                         speak_now("I am very thankful . Shukriya !")
@@ -65,7 +66,7 @@ while True:
                         speak_now("I am in a developing phase. I will correct myself")
 
                     elif any(phrase in command for phrase in ["stop", "end", "exit", "thanks", "thank" "thank you", "over", "sign out"]):
-                        navya_activate = False
+                        agya_activate = False
                         speak_now("Mujhe use krne ke liye dhanyawad. aapka din shubh ho")
                         break
 
@@ -78,9 +79,22 @@ while True:
                         except Exception as e:
                             print("Error:", e)
                             speak_now("Sorry, I couldn't open that website.")
+
+                    elif "play" in command:
+                        try:
+                            site_name = command.split("play")[1].strip()
+                            url = f"https://www.youtube.com/results?search_query={site_name}"
+                            speak_now(f"apna youtube check kro {site_name} ke results khul gye h")
+                            webbrowser.open(url)
+                        except Exception as e:
+                            print("Error:", e)
+                            speak_now("Sorry, I couldn't open that website.")
+
                     
                     else:
-                        speak_now("Sorry, I didn't understand that.")
+                        reply = ask_gemini(command)
+                        speak_now(reply)
+
 
                 except sr.UnknownValueError:
                     print("Some error ! please speak again")
@@ -88,7 +102,7 @@ while True:
                 except sr.RequestError:
                     print("Speech recognition service is down.")
                     speak_now("Sorry, Lagta h meri battery gyiiiiiiiiiiiiii.")
-                    navya_activate = False
+                    agya_activate = False
 
     except sr.UnknownValueError:
         print("Could not understand audio")
