@@ -1,5 +1,5 @@
 from imports import *
-from api import *
+from gemini import *
 
 # TTS Setup 
 async def speak(text):
@@ -36,7 +36,7 @@ while True:
         
         if any(phrase in wake_command for phrase in ["hey", "agya", "hey agya", "are you there", "r u there", "hello", "listen", "agya"]):
             agya_activate = True
-            speak_now("Mai sun rahi hoon. Whats your question ?")
+            speak_now("Mai sun rahi hoon. Whats your question?")
 
             while agya_activate:
                 try:
@@ -67,7 +67,7 @@ while True:
 
                     elif any(phrase in command for phrase in ["stop", "end", "exit", "thanks", "thank" "thank you", "over", "sign out"]):
                         agya_activate = False
-                        speak_now("Mujhe use krne ke liye dhanyawad. aapka din shubh ho")
+                        speak_now("Thanks for using me")
                         break
 
                     elif "open" in command:

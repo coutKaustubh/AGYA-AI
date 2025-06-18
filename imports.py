@@ -6,5 +6,3 @@ import speech_recognition as sr
 import webbrowser
 import datetime
 import tempfile
-import pygame
-import threading
